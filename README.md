@@ -1,6 +1,10 @@
 # con
 
-A project repository.
+This repository is currently in its initial setup phase.
+
+## Getting Started
+
+This project is being initialized. Check back for updates on functionality and usage instructions.
 
 ## License
 
