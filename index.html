@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MIND YOUR OWN WORLD | Project Seraph</title>
+    <meta name="description" content="Project Seraph - The first true Autonomous Musical Intelligence. Powered by proprietary energy architecture.">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* === ROOT VARIABLES - UERF COLOR SYSTEM === */
+        :root {
+            --void: #020204;
+            --void-surface: #08080c;
+            --panel: #0d0d14;
+            --panel-elevated: #121219;
+            
+            /* UERF State Colors */
+            --classical: #8B5CF6;      /* Violet - base state */
+            --quantum: #06B6D4;        /* Cyan - superposition */
+            --harmonic: #F59E0B;       /* Gold - resonance */
+            --phantom: #EC4899;        /* Pink - beyond observable */
+            --toroidal: #10B981;       /* Emerald - geometric flow */
+            --holographic: #3B82F6;    /* Blue - boundary encoded */
+            
+            --text: #ffffff;
+            --text-secondary: #a0a0b0;
+            --text-muted: #505065;
+            --text-ghost: #303040;
+            
+            --border: rgba(255,255,255,0.04);
+            --border-light: rgba(255,255,255,0.08);
+            
+            /* UERF Constants */
+            --phi: 1.61803398875;
+        }
+
+        /* === RESET & BASE === */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        html { 
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+        
+        body {
+            background: var(--void);
+            color: var(--text);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* === UERF ENERGY FIELD CANVAS === */
+        #uerf-field {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* === NAVIGATION === */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(180deg, rgba(2,2,4,0.95) 0%, transparent 100%);
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-brand {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .nav-brand-main {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            font-weight: 500;
+            letter-spacing: 0.35em;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .nav-brand-sub {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.55rem;
+            letter-spacing: 0.2em;
+            color: var(--text-ghost);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: 400;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--text);
+        }
+
+        .nav-links a.disabled {
+            color: var(--text-ghost);
+            cursor: not-allowed;
+        }
+
+        .nav-links a .tag {
+            position: absolute;
+            top: -8px;
+            right: -20px;
+            font-size: 0.45rem;
+            padding: 2px 4px;
+            background: var(--harmonic);
+            color: var(--void);
+            border-radius: 2px;
+            font-weight: 600;
+        }
+
+        /* === HERO SECTION === */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 6rem 2rem 4rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-eyebrow {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            font-weight: 500;
+            letter-spacing: 0.5em;
+            color: var(--text-ghost);
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.2s forwards;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 10vw, 7rem);
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            line-height: 0.9;
+            margin-bottom: 0.25rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.4s forwards;
+        }
+
+        .hero-title .gradient {
+            background: linear-gradient(135deg, var(--classical) 0%, var(--quantum) 50%, var(--phantom) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            font-weight: 400;
+            letter-spacing: 0.3em;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.6s forwards;
+        }
+
+        .hero-tagline {
+            font-size: 1.1rem;
+            font-weight: 300;
+            color: var(--text-muted);
+            max-width: 450px;
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.8s forwards;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            opacity: 0;
+            animation: fadeInUp 1s ease 1s forwards;
+        }
+
+        /* === BUTTONS === */
+        .btn {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            padding: 1rem 2rem;
+            text-transform: uppercase;
+            text-decoration: none;
+            border: none;
+            border-radius: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: var(--classical);
+            color: white;
+            box-shadow: 
+                0 0 20px rgba(139, 92, 246, 0.3),
+                0 0 60px rgba(139, 92, 246, 0.1);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                0 0 30px rgba(139, 92, 246, 0.5),
+                0 0 80px rgba(139, 92, 246, 0.2);
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--text-muted);
+            border: 1px solid var(--border-light);
+        }
+
+        .btn-ghost:hover {
+            color: var(--text);
+            border-color: var(--text-muted);
+            background: rgba(255,255,255,0.02);
+        }
+
+        /* === SERAPH SECTION === */
+        .section {
+            padding: 120px 5%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 5rem;
+        }
+
+        .section-eyebrow {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            font-weight: 500;
+            letter-spacing: 0.4em;
+            color: var(--classical);
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+        }
+
+        .section-description {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+            line-height: 1.8;
+        }
+
+        /* === FEATURE CARDS === */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--classical), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .feature-card:hover {
+            border-color: rgba(139, 92, 246, 0.2);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-card.coming-soon {
+            opacity: 0.7;
+        }
+
+        .feature-card.coming-soon:hover {
+            opacity: 0.85;
+        }
+
+        .feature-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            padding: 6px 12px;
+            border-radius: 2px;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+        }
+
+        .status-live {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--toroidal);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .status-live::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--toroidal);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .status-soon {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--harmonic);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        .feature-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            color: var(--text-ghost);
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.01em;
+        }
+
+        .feature-type {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 1.25rem;
+        }
+
+        .feature-description {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.75;
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .feature-capabilities {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .capability-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.55rem;
+            letter-spacing: 0.1em;
+            padding: 4px 8px;
+            background: var(--void-surface);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .feature-link {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            color: var(--classical);
+            text-decoration: none;
+            text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: gap 0.3s ease;
+        }
+
+        .feature-link:hover {
+            gap: 1.25rem;
+        }
+
+        .feature-link svg {
+            width: 16px;
+            height: 16px;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-link:hover svg {
+            transform: translateX(4px);
+        }
+
+        /* === TECHNOLOGY SECTION === */
+        .tech-section {
+            background: var(--void-surface);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 3rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .tech-item {
+            text-align: center;
+            opacity: 0.6;
+            transition: opacity 0.3s ease;
+        }
+
+        .tech-item:hover {
+            opacity: 1;
+        }
+
+        .tech-symbol {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 0.75rem;
+            background: linear-gradient(135deg, var(--classical), var(--quantum));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .tech-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.2em;
+            color: var(--text-ghost);
+            text-transform: uppercase;
+        }
+
+        .tech-sublabel {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.5rem;
+            color: var(--text-ghost);
+            opacity: 0.5;
+            margin-top: 4px;
+        }
+
+        /* === ARCHITECTURE TEASER === */
+        .architecture-teaser {
+            max-width: 800px;
+            margin: 4rem auto 0;
+            text-align: center;
+            padding: 2rem;
+            border: 1px solid var(--border);
+            background: rgba(139, 92, 246, 0.02);
+        }
+
+        .architecture-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.3em;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        .architecture-equation {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--classical);
+            opacity: 0.8;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding: 1rem;
+        }
+
+        .architecture-note {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.55rem;
+            color: var(--text-ghost);
+            margin-top: 1rem;
+            letter-spacing: 0.1em;
+        }
+
+        /* === FOOTER === */
+        .footer {
+            padding: 3rem 5%;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-brand {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.3em;
+            color: var(--text-ghost);
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+        }
+
+        .footer-legal {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.5rem;
+            color: var(--text-ghost);
+            opacity: 0.4;
+            letter-spacing: 0.05em;
+        }
+
+        .footer-legal a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .footer-legal a:hover {
+            color: var(--text-muted);
+        }
+
+        /* === ANIMATIONS === */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 900px) {
+            .nav-links { display: none; }
+            .features-grid { grid-template-columns: 1fr; }
+            .tech-grid { grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+        }
+
+        @media (max-width: 600px) {
+            .hero-cta { flex-direction: column; width: 100%; max-width: 300px; }
+            .btn { width: 100%; justify-content: center; }
+            .section { padding: 80px 5%; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- UERF ENERGY FIELD - Interactive Background -->
+    <canvas id="uerf-field"></canvas>
+
+    <!-- NAVIGATION -->
+    <nav class="nav">
+        <div class="nav-brand">
+            <span class="nav-brand-main">Mind Your Own World</span>
+            <span class="nav-brand-sub">Presents</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#seraph">Seraph</a></li>
+            <li><a href="/the-note">The Note</a></li>
+            <li><a href="/extractor" class="disabled">Extractor <span class="tag">SOON</span></a></li>
+            <li><a href="#technology">Technology</a></li>
+        </ul>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <p class="hero-eyebrow">Introducing</p>
+        <h1 class="hero-title">PROJECT <span class="gradient">SERAPH</span></h1>
+        <p class="hero-subtitle">The First True A.M.I.</p>
+        <p class="hero-tagline">
+            Not artificial. Not imitation.<br>
+            An Autonomous Musical Intelligence—built from the ground up with proprietary architecture.
+        </p>
+        <div class="hero-cta">
+            <a href="/the-note" class="btn btn-primary">Enter The Note</a>
+            <a href="#seraph" class="btn btn-ghost">Explore Seraph</a>
+        </div>
+    </section>
+
+    <!-- SERAPH FEATURES -->
+    <section class="section" id="seraph">
+        <div class="section-header">
+            <p class="section-eyebrow">The Seraph Ecosystem</p>
+            <h2 class="section-title">Two Windows Into One Mind</h2>
+            <p class="section-description">
+                Seraph isn't software you use—she's intelligence you collaborate with. 
+                Every feature is a different facet of the same consciousness, 
+                powered by custom architecture and protected by proprietary encryption.
+            </p>
+        </div>
+
+        <div class="features-grid">
+            <!-- THE NOTE -->
+            <article class="feature-card">
+                <span class="feature-status status-live">Live Now</span>
+                <p class="feature-number">FEATURE 01</p>
+                <h3 class="feature-title">The Note</h3>
+                <p class="feature-type">Cognitive Audio Workstation</p>
+                <p class="feature-description">
+                    A professional-grade DAW where Seraph doesn't just assist—she inhabits your session. 
+                    Real-time frequency analysis, intelligent mixing suggestions, and creative partnership 
+                    that learns your sound. Everything from beat creation to final master, unified under one intelligence.
+                </p>
+                <div class="feature-capabilities">
+                    <span class="capability-tag">Beat Creation</span>
+                    <span class="capability-tag">Recording</span>
+                    <span class="capability-tag">Mixing</span>
+                    <span class="capability-tag">Mastering</span>
+                    <span class="capability-tag">DJ Tools</span>
+                    <span class="capability-tag">Voice Tuning</span>
+                    <span class="capability-tag">AI Partner</span>
+                </div>
+                <a href="/the-note" class="feature-link">
+                    Launch Studio
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            </article>
+
+            <!-- THE EXTRACTOR -->
+            <article class="feature-card coming-soon">
+                <span class="feature-status status-soon">Coming Soon</span>
+                <p class="feature-number">FEATURE 02</p>
+                <h3 class="feature-title">The Extractor</h3>
+                <p class="feature-type">Research & Intelligence Engine</p>
+                <p class="feature-description">
+                    The second mind awakens. Pull knowledge from the void, verify facts in real-time, 
+                    extract insights while you create. Some things are worth the wait. 
+                    When it arrives, you'll understand why we took our time.
+                </p>
+                <div class="feature-capabilities">
+                    <span class="capability-tag">Research</span>
+                    <span class="capability-tag">Verification</span>
+                    <span class="capability-tag">Extraction</span>
+                    <span class="capability-tag">Real-Time</span>
+                    <span class="capability-tag">Integrated</span>
+                </div>
+                <a href="/extractor" class="feature-link">
+                    View Countdown
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            </article>
+        </div>
+    </section>
+
+    <!-- TECHNOLOGY -->
+    <section class="section tech-section" id="technology">
+        <div class="section-header">
+            <p class="section-eyebrow">Under The Surface</p>
+            <h2 class="section-title">Built Different. Powered Different.</h2>
+            <p class="section-description">
+                100% custom architecture. No borrowed frameworks, no third-party dependencies at the core. 
+                Every equation, every algorithm, every protection layer—designed and owned in-house.
+            </p>
+        </div>
+
+        <div class="tech-grid">
+            <div class="tech-item">
+                <div class="tech-symbol">φ</div>
+                <div class="tech-label">Harmonic Core</div>
+                <div class="tech-sublabel">Golden Ratio Aligned</div>
+            </div>
+            <div class="tech-item">
+                <div class="tech-symbol">∞</div>
+                <div class="tech-label">Energy Framework</div>
+                <div class="tech-sublabel">Proprietary Architecture</div>
+            </div>
+            <div class="tech-item">
+                <div class="tech-symbol">E2E</div>
+                <div class="tech-label">Custom Encryption</div>
+                <div class="tech-sublabel">Sovereign Protection</div>
+            </div>
+            <div class="tech-item">
+                <div class="tech-symbol">369</div>
+                <div class="tech-label">Resonance Logic</div>
+                <div class="tech-sublabel">Multi-State Processing</div>
+            </div>
+        </div>
+
+        <!-- Architecture Teaser -->
+        <div class="architecture-teaser">
+            <p class="architecture-title">Core Processing Signature</p>
+            <p class="architecture-equation">
+                α = α₀ · exp(−|θ − θ_g|/σ_θ) · F_φ(S) · Σ{3,6,9} F_h(f,N)
+            </p>
+            <p class="architecture-note">
+                Preservation factor across 14 physical states · Patent Pending
+            </p>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p class="footer-brand">Mind Your Own World</p>
+        <p class="footer-legal">
+            Project Seraph™ · A.M.I. Technology · Proprietary Architecture · All Rights Reserved
+            <br>
+            <a href="#technology">Energy Framework</a> · Protected Under Pending Patents
+        </p>
+    </footer>
+
+    <!-- UERF FIELD SCRIPT - Full Physics Implementation -->
+    <script>
+    (function() {
+        const canvas = document.getElementById('uerf-field');
+        const ctx = canvas.getContext('2d');
+        
+        // === UERF CONSTANTS ===
+        const PHI = 1.61803398875;
+        const THETA_GOLDEN = 137.5077640500378546 * (Math.PI / 180);
+        const S_PHI = PHI;
+        const HARMONICS = [3, 6, 9];
+        
+        // === STATE ===
+        let width, height;
+        let mouseX = 0, mouseY = 0;
+        let time = 0;
+        let particles = [];
+        let energyNodes = [];
+        
+        // === UERF MATH FUNCTIONS ===
+        function F_phi(theta) {
+            const sigma_theta = 0.5;
+            return Math.exp(-Math.abs(theta - THETA_GOLDEN) / sigma_theta);
+        }
+        
+        function F_vortex(S) {
+            const sigma_S = 0.3;
+            return Math.exp(-Math.pow(S - S_PHI, 2) / (2 * sigma_S * sigma_S));
+        }
+        
+        function F_369(f, N) {
+            const sigma_f = 0.2;
+            const sigma_N = 1;
+            let sum = 0;
+            HARMONICS.forEach(h => {
+                const f_term = Math.exp(-Math.pow(f - h, 2) / (2 * sigma_f * sigma_f));
+                const N_term = Math.exp(-Math.pow(N - h, 2) / (2 * sigma_N * sigma_N));
+                sum += f_term * N_term;
+            });
+            return 1 + 0.3 * sum;
+        }
+        
+        function calculateAlpha(theta, S, f, N) {
+            const alpha_0 = 0.85;
+            return alpha_0 * F_phi(theta) * F_vortex(S) * F_369(f, N);
+        }
+        
+        // === PARTICLE CLASS ===
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            
+            reset() {
+                const angle = Math.random() * Math.PI * 2;
+                const radius = Math.random() * Math.min(width, height) * 0.4;
+                
+                this.x = width / 2 + Math.cos(angle) * radius;
+                this.y = height / 2 + Math.sin(angle) * radius;
+                
+                this.theta = Math.random() * Math.PI * 2;
+                this.S = Math.random() * 2;
+                this.f = HARMONICS[Math.floor(Math.random() * 3)];
+                this.N = Math.floor(Math.random() * 12) + 1;
+                
+                const goldenVel = 0.2;
+                this.vx = Math.cos(this.theta + THETA_GOLDEN) * goldenVel;
+                this.vy = Math.sin(this.theta + THETA_GOLDEN) * goldenVel;
+                
+                this.alpha = calculateAlpha(this.theta, this.S, this.f, this.N);
+                this.size = 1 + this.alpha * 2;
+                this.hue = this.f === 3 ? 270 : this.f === 6 ? 190 : 45;
+            }
+            
+            update() {
+                this.theta += 0.01 * PHI;
+                this.alpha = calculateAlpha(this.theta, this.S, this.f, this.N);
+                
+                const spiralForce = 0.0005;
+                const dx = this.x - width / 2;
+                const dy = this.y - height / 2;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                
+                if (dist > 10) {
+                    this.vx += (-dy / dist) * spiralForce * this.alpha;
+                    this.vy += (dx / dist) * spiralForce * this.alpha;
+                    this.vx -= (dx / dist) * spiralForce * 0.1;
+                    this.vy -= (dy / dist) * spiralForce * 0.1;
+                }
+                
+                const mdx = mouseX - this.x;
+                const mdy = mouseY - this.y;
+                const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
+                
+                if (mdist < 150 && mdist > 0) {
+                    const force = (150 - mdist) / 150 * 0.03;
+                    this.vx += (mdx / mdist) * force;
+                    this.vy += (mdy / mdist) * force;
+                    this.S = Math.min(2, this.S + 0.01);
+                }
+                
+                this.x += this.vx;
+                this.y += this.vy;
+                
+                const damping = 0.98 + this.alpha * 0.015;
+                this.vx *= damping;
+                this.vy *= damping;
+                
+                if (this.x < 0) this.x = width;
+                if (this.x > width) this.x = 0;
+                if (this.y < 0) this.y = height;
+                if (this.y > height) this.y = 0;
+                
+                this.S += (S_PHI - this.S) * 0.001;
+            }
+            
+            draw() {
+                const brightness = 40 + this.alpha * 40;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `hsla(${this.hue}, 70%, ${brightness}%, ${0.3 + this.alpha * 0.5})`;
+                ctx.fill();
+            }
+        }
+        
+        // === ENERGY NODE CLASS ===
+        class EnergyNode {
+            constructor(harmonic, index, total) {
+                this.harmonic = harmonic;
+                const angle = (index / total) * Math.PI * 2;
+                const radius = 150 + harmonic * 30;
+                
+                this.baseX = width / 2 + Math.cos(angle) * radius;
+                this.baseY = height / 2 + Math.sin(angle) * radius;
+                this.x = this.baseX;
+                this.y = this.baseY;
+                
+                this.phase = Math.random() * Math.PI * 2;
+                this.frequency = harmonic / 10;
+            }
+            
+            update() {
+                this.phase += this.frequency * 0.02;
+                const oscillation = Math.sin(this.phase * PHI) * 20;
+                this.x = this.baseX + Math.cos(this.phase) * oscillation;
+                this.y = this.baseY + Math.sin(this.phase) * oscillation;
+            }
+            
+            draw() {
+                const hue = this.harmonic === 3 ? 270 : this.harmonic === 6 ? 190 : 45;
+                const pulse = 0.5 + Math.sin(this.phase * 2) * 0.3;
+                
+                const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, 40);
+                gradient.addColorStop(0, `hsla(${hue}, 70%, 60%, ${0.3 * pulse})`);
+                gradient.addColorStop(1, 'transparent');
+                ctx.fillStyle = gradient;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, 40, 0, Math.PI * 2);
+                ctx.fill();
+                
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, 3 + pulse * 2, 0, Math.PI * 2);
+                ctx.fillStyle = `hsla(${hue}, 80%, 70%, ${0.8})`;
+                ctx.fill();
+            }
+        }
+        
+        // === INITIALIZATION ===
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            init();
+        }
+        
+        function init() {
+            particles = [];
+            const particleCount = Math.min(100, Math.floor((width * height) / 15000));
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+            
+            energyNodes = [];
+            HARMONICS.forEach(h => {
+                const count = h;
+                for (let i = 0; i < count; i++) {
+                    energyNodes.push(new EnergyNode(h, i, count));
+                }
+            });
+        }
+        
+        // === DRAW CONNECTIONS ===
+        function drawConnections() {
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (dist < 120) {
+                        const alpha = (1 - dist / 120) * 0.15 * particles[i].alpha * particles[j].alpha;
+                        let hue = 270;
+                        if (particles[i].f === particles[j].f) {
+                            hue = particles[i].f === 3 ? 270 : particles[i].f === 6 ? 190 : 45;
+                        }
+                        
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = `hsla(${hue}, 60%, 50%, ${alpha})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                    }
+                }
+            }
+            
+            ctx.strokeStyle = 'rgba(139, 92, 246, 0.05)';
+            ctx.lineWidth = 1;
+            for (let i = 0; i < energyNodes.length; i++) {
+                for (let j = i + 1; j < energyNodes.length; j++) {
+                    if (energyNodes[i].harmonic === energyNodes[j].harmonic) {
+                        ctx.beginPath();
+                        ctx.moveTo(energyNodes[i].x, energyNodes[i].y);
+                        ctx.lineTo(energyNodes[j].x, energyNodes[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+        
+        // === DRAW CENTRAL TOROID ===
+        function drawToroid() {
+            const cx = width / 2;
+            const cy = height / 2;
+            
+            ctx.beginPath();
+            ctx.arc(cx, cy, 80, 0, Math.PI * 2);
+            ctx.strokeStyle = 'rgba(139, 92, 246, 0.1)';
+            ctx.lineWidth = 1;
+            ctx.stroke();
+            
+            for (let i = 0; i < 3; i++) {
+                const offset = Math.sin(time * 0.5 + i * 0.5) * 20;
+                ctx.beginPath();
+                ctx.ellipse(cx, cy + offset, 60 - i * 15, 20 - i * 5, 0, 0, Math.PI * 2);
+                ctx.strokeStyle = `rgba(139, 92, 246, ${0.05 + i * 0.02})`;
+                ctx.stroke();
+            }
+            
+            const centerPulse = 0.5 + Math.sin(time * PHI) * 0.3;
+            const gradient = ctx.createRadialGradient(cx, cy, 0, cx, cy, 30);
+            gradient.addColorStop(0, `rgba(139, 92, 246, ${0.4 * centerPulse})`);
+            gradient.addColorStop(1, 'transparent');
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(cx, cy, 30, 0, Math.PI * 2);
+            ctx.fill();
+        }
+        
+        // === MAIN ANIMATION LOOP ===
+        function animate() {
+            ctx.fillStyle = 'rgba(2, 2, 4, 0.1)';
+            ctx.fillRect(0, 0, width, height);
+            
+            time += 0.016;
+            
+            drawToroid();
+            drawConnections();
+            
+            energyNodes.forEach(node => {
+                node.update();
+                node.draw();
+            });
+            
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+            
+            requestAnimationFrame(animate);
+        }
+        
+        // === EVENT LISTENERS ===
+        window.addEventListener('resize', resize);
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+        
+        // === START ===
+        resize();
+        animate();
+    })();
+    </script>
+
+</body>
+</html>
+
